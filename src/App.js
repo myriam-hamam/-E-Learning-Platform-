@@ -22,7 +22,6 @@ function Sidebar({ userRole, setRole, isDarkMode, setIsDarkMode }) {
       <nav className="nav-links">
         {userRole === 'student' && (
           <>
-            {/* Note the new /catalog path below */}
             <Link to="/catalog" className={currentPath === '/catalog' ? 'active-link' : ''}>🔍 Course Catalog</Link>
             <Link to="/dashboard" className={currentPath === '/dashboard' ? 'active-link' : ''}>📊 Student Dashboard</Link>
           </>
@@ -83,6 +82,10 @@ function AppContent() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+          
+          {/* 🌟 FIX 1: Catches the GitHub Pages default loading route and redirects smoothly to the landing page */}
+          <Route path="/index.html" element={<Navigate to="/" />} />
+          
           <Route path="/login" element={!userRole ? <Login setRole={setUserRole} /> : <Navigate to="/catalog" />} />
           
           {/* Protected Internal Routes */}
@@ -106,7 +109,8 @@ function AppContent() {
 // 3. The Root App Component
 function App() {
   return (
-    <BrowserRouter>
+    /* 🌟 FIX 2: Configures the base directory path matching your GitHub URL schema exactly */
+    <BrowserRouter basename="/-E-Learning-Platform-">
       <AppContent />
     </BrowserRouter>
   );
